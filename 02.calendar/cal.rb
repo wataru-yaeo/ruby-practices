@@ -29,3 +29,4 @@ print " " * first_day.wday * 3
   print x.strftime("%e")," "
   puts if x.saturday?
 end
+puts
