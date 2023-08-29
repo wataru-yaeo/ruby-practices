@@ -13,15 +13,11 @@ scores.each do |s|
   end
 end
 
-frames = []
-shots.each_slice(2) do |s|
-  frames << s
-end
+frames = shots.each_slice(2).to_a { |s| }
 
 point1 = 0
-frames[0..8].each_with_index do |frame, index| # 1〜9フレーム
-  frame.slice!(1) if frame[0] == 10
-  point1 += if frame[0] == 10
+frames[0..8].each_with_index do |frame, index|
+  point1 += if frame[0] == 10 # 1〜9フレーム
               if frames[index + 1][0] == 10 # 2連続ストライク
                 20 + frames[index + 2][0]
               else # ストライク
@@ -35,21 +31,12 @@ frames[0..8].each_with_index do |frame, index| # 1〜9フレーム
 end
 
 point2 = 0 # 10フレーム
-frames[9].pop if frames[9][0] == 10
-if frames[9][0] == 10
-  if frames[10][0] == 10 # 2連続ストライク
-    point2 += 20 + frames[11][0]
-    frames[9].push(frames[10][0], frames[11][0])
-    frames.delete_at(-1)
-  else # ストライク
-    point2 += 10 + frames[10].sum
-    frames[9].push(frames[10][0], frames[10][1])
-  end
-  frames.delete_at(-1)
+if frames[9][0] == 10 && frames[10][0] == 10
+  point2 = frames[9].sum + frames[10].sum + frames[11].sum
+elsif frames[9][0] == 10
+  point2 = frames[9].sum + frames[10].sum
 elsif frames[9].sum == 10 # スペア
-  point2 += 10 + frames[10][0]
-  frames[9].push(frames[10][0])
-  frames.delete_at(-1)
+  point2 = frames[9].sum + frames[10].sum
 else
   point2 += frames[9].sum
 end
