@@ -13,7 +13,7 @@ scores.each do |s|
   end
 end
 
-frames = shots.each_slice(2).to_a { |s| }
+frames = shots.each_slice(2).to_a
 
 point = 0
 frames[0..8].each_with_index do |frame, index| # 1〜9フレーム
